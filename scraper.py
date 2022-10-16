@@ -9,4 +9,4 @@ df = pd.DataFrame([['c', 3, 'cat'], ['d', 4, 'dog']],
                    columns=['letter', 'number', 'animal'])
 
 conn = sqlite3.connect('data.sqlite')
-df.to_sql('data', conn, if_exists='replace')
+df.to_sql('data', conn, if_exists='append')
