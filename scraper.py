@@ -6,7 +6,9 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import sqlite3
 
-rankingsLink = 'https://www.ufc.com/rankings'
+mainLink = 'https://www.ufc.com'
+
+rankingsLink = mainLink + '/rankings'
 
 data = requests.get(rankingsLink)
 soup = BeautifulSoup(data.text, 'html.parser')
