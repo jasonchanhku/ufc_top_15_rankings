@@ -23,13 +23,22 @@ for segment in segments:
     subDf = pd.DataFrame()
     print(f"{weightclass} Top 15")
     fighters = segment.find_all('div', {'class':'views-row'})
+    fightersLink = [mainLink + fighter.find('a', href=True)['href'] for fighter in fighters]
+    fightersImg = []
+    for fighterpage in fightersLink:
+        fighterData = requests.get(fighterpage)
+        fighterSoup = BeautifulSoup(fighterData.text, 'html.parser')
+        src = fighterSoup.find('div', {'class':'hero-profile__image-wrap'}).find('img')['src']
+        fightersImg.append(src)
+        
     fighters = [fighter.text.strip() for fighter in fighters]
     print(fighters)
     print("==========\n")
     subDf['fighters'] = fighters
     subDf['weightclass'] = weightclass
     subDf['rank'] = [r for r in range(1, len(fighters)+1)]
-    subDf = subDf[['weightclass','rank', 'fighters']]
+    subDf['img'] = fightersImg
+    subDf = subDf[['weightclass','rank', 'fighters', 'img']]
     dfList.append(subDf)
     
         
