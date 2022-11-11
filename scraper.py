@@ -27,23 +27,34 @@ for segment in segments:
     fighters = segment.find_all('div', {'class':'views-row'})
     fightersLink = [mainLink + fighter.find('a', href=True)['href'] for fighter in fighters]
     fightersImg = []
+    fightersNickName = []
+    fightersRecord = []
     for fighterpage in fightersLink:
         fighterData = requests.get(fighterpage)
         fighterSoup = BeautifulSoup(fighterData.text, 'html.parser')
         src = fighterSoup.find('div', {'class':'hero-profile__image-wrap'}).find('img')['src']
+        nickName = fighterSoup.find('p', {'class':'hero-profile__nickname'})
+        if nickName is None:
+            nickName = 'N/A'
+        else:
+            nickName = nickName.text.strip()
+        record = fighterSoup.find('p', {'class':'hero-profile__division-body'}).text.strip().split(' ')[0]
         fightersImg.append(src)
+        fightersNickName.append(nickName)
+        fightersRecord.append(record)
         
     fighters = [fighter.text.strip() for fighter in fighters]
     print(fighters)
     print("==========\n")
     subDf['fighters'] = fighters
+    subDf['nickName'] = fightersNickName
+    subDf['record'] = fightersRecord
     subDf['weightclass'] = weightclass
     subDf['rank'] = [r for r in range(1, len(fighters)+1)]
     subDf['img'] = fightersImg
-    subDf = subDf[['weightclass','rank', 'fighters', 'img']]
+    subDf = subDf[['weightclass','rank', 'fighters','nickName','record', 'img']]
     dfList.append(subDf)
     
-        
 
 finalDf = pd.concat(dfList)
 
