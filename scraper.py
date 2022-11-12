@@ -28,7 +28,9 @@ for segment in segments:
     fightersLink = [mainLink + fighter.find('a', href=True)['href'] for fighter in fighters]
     fightersImg = []
     fightersNickName = []
-    fightersRecord = []
+    fightersWins = []
+    fightersLoses = []
+    fightersDraws = []
     for fighterpage in fightersLink:
         fighterData = requests.get(fighterpage)
         fighterSoup = BeautifulSoup(fighterData.text, 'html.parser')
@@ -39,21 +41,41 @@ for segment in segments:
         else:
             nickName = nickName.text.strip()
         record = fighterSoup.find('p', {'class':'hero-profile__division-body'}).text.strip().split(' ')[0]
+        record = record.split('-')
+        if len(record) == 3:
+            wins = record[0]
+            loss = record[1]
+            draw = record[2]
+        else:
+            wins = record[0]
+            loss = record[1]
+            draw = '0'
+            
         fightersImg.append(src)
         fightersNickName.append(nickName)
-        fightersRecord.append(record)
+        fightersWins.append(wins)
+        fightersLoses.append(loss)
+        fightersDraws.append(draw)
         
     fighters = [fighter.text.strip() for fighter in fighters]
     print(fighters)
     print("==========\n")
     subDf['fighters'] = fighters
     subDf['nickName'] = fightersNickName
-    subDf['record'] = fightersRecord
+    subDf['wins'] = fightersWins
+    subDf['losses'] = fightersLoses
+    subDf['draws'] = fightersDraws
     subDf['weightclass'] = weightclass
     subDf['rank'] = [r for r in range(1, len(fighters)+1)]
     subDf['img'] = fightersImg
-    subDf = subDf[['weightclass','rank', 'fighters','nickName','record', 'img']]
+    subDf = subDf[['weightclass','rank', 'fighters','nickName','wins', 'losses', 'draws', 'img']]
     dfList.append(subDf)
+    
+        
+
+        
+
+
     
 
 finalDf = pd.concat(dfList)
