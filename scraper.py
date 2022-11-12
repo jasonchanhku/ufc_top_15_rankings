@@ -71,12 +71,6 @@ for segment in segments:
     subDf = subDf[['weightclass','rank', 'fighters','nickName','wins', 'losses', 'draws', 'img']]
     dfList.append(subDf)
     
-        
-
-        
-
-
-    
 
 finalDf = pd.concat(dfList)
 finalDf = finalDf.reset_index().rename(columns={'index':'_id'})
