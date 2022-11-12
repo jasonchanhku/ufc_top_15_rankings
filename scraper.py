@@ -79,6 +79,7 @@ for segment in segments:
     
 
 finalDf = pd.concat(dfList)
+finalDf = finalDf.reset_index().rename(columns={'index':'_id'})
 
 print(finalDf.head())
 
