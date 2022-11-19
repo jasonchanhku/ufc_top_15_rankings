@@ -98,7 +98,7 @@ fighters_db = pd.DataFrame.from_dict(j)
 
 fighters_db.drop(['index'], axis=1, inplace=True)
 
-fighters_db = fighters_db[['NAME','Age', 'Height', 'REACH', 'SLPM', 'SAPM', 'STRD', 'TD', 'TDA', 'TDD', 'SUBA']]
+fighters_db = fighters_db[['NAME','Age', 'Height', 'REACH', 'SLPM', 'SAPM', 'STRD','STRA', 'TD', 'TDA', 'TDD', 'SUBA']]
 
 fighters_db.columns = [c.lower() for c in fighters_db.columns]
 
