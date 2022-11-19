@@ -80,14 +80,6 @@ for segment in segments:
 finalDf = pd.concat(dfList)
 finalDf = finalDf.reset_index().rename(columns={'index':'_id'})
 
-conn = sqlite3.connect(':memory:')
-cur = conn.cursor()
-conn.enable_load_extension(True)
-
-for (val,) in cur.execute('pragma compile_options'): 
-    print (val)
-    
-
 # We're always asking for json because it's the easiest to deal with
 morph_api_url = "https://api.morph.io/jasonchanhku/ufc_fighters_db/data.json"
 
