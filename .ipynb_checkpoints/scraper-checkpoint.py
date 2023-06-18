@@ -16,6 +16,8 @@ data = requests.get(rankingsLink)
 soup = BeautifulSoup(data.text, 'html.parser')
 
 
+segments = soup.find_all('div', {'class': 'view-grouping-content'}, href=False)   
+
 excludeList = ["Men's Pound-for-Pound Top Rank", "Women's Pound-for-Pound Top Rank", "Women's Featherweight"]
 #excludeList = []
 dfList = []
